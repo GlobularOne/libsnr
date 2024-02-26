@@ -1,5 +1,6 @@
 """
-Snr core and common utilities. If a function is found here and also in libsnr.core, it is advised to use the one here
+Snr core and common utilities. If a function is found here 
+and also in libsnr.core, it is advised to use the one here
 """
 import os as _os
 import shutil as _shutil
@@ -7,15 +8,14 @@ import sys as _sys
 import traceback as _traceback
 # pylint: disable=unused-import
 from shutil import get_terminal_size
-# pylint: disable=unused-import
+
 from libsnr.core import options as _options
 # pylint: disable=unused-import
-from libsnr.core.logging import (carriage_return, clear_screen, print_debug, print_error, print_fatal,
-                                 print_info, print_ok, print_sys, print_warning)
+from libsnr.core.logging import (carriage_return, clear_screen, print_debug,
+                                 print_error, print_fatal, print_info,
+                                 print_ok, print_sys, print_warning)
 # pylint: disable=unused-import
 from libsnr.util.table import Table
-# pylint: disable=unused-import
-from libsnr.core import common_paths as _common_paths
 
 EXTERNAL_CALL_FAILURE = "\x01"
 
@@ -63,12 +63,15 @@ def rootfs_open(context: dict, file, mode="r", buffering: int = -1, encoding: st
      @param encoding The encoding to use. If None the default encoding will be used
      @return file-like object Stream opened
     """
+    # pylint: disable=consider-using-with
     stream = open(_os.path.join(
         context["temp_dir"], file), mode, buffering, encoding)
 
+    # pylint: disable=unused-variable
     def __enter__():
         return stream.__enter__()
 
+    # pylint: disable=unused-variable
     def __exit__(exc_type, exc_val, exc_tb):
         return stream.__exit__(exc_type, exc_val, exc_tb)
     return stream

@@ -2,15 +2,16 @@
 Utility functions to help with the storage.
 Allows working with LVM and getting information on all and any disk or partition
 """
-import json as _json
 import copy as _copy
-from libsnr.util.program_wrapper import ProgramWrapper as _ProgramWrapper
-from libsnr.util.program_wrapper import PIPE as _PIPE
+import json as _json
 
+from libsnr.util.program_wrapper import PIPE as _PIPE
+from libsnr.util.program_wrapper import ProgramWrapper as _ProgramWrapper
 
 ###############################################################################
 # Block and partition support
 ###############################################################################
+
 
 def query_all_block_info() -> list:
     """
@@ -33,9 +34,9 @@ def query_all_partitions(block_info: list | None = None):
     if block_info is None:
         block_info = query_all_block_info()
     partitions = []
-    for v in block_info:
-        if "children" in v:
-            for child in v["children"]:
+    for block in block_info:
+        if "children" in block:
+            for child in block["children"]:
                 if child["type"] == "part":
                     partitions.append(child["path"])
     return partitions
@@ -50,11 +51,12 @@ def query_partition_info_by_path(path: str, block_info: list | None = None):
     """
     if block_info is None:
         block_info = query_all_block_info()
-    for v in block_info:
-        if "children" in v:
-            for child in v["children"]:
+    for block in block_info:
+        if "children" in block:
+            for child in block["children"]:
                 if child["type"] == "part" and child["path"] == path:
                     return _copy.deepcopy(child)
+    return None
 
 
 def query_partition_info_by_uuid(uuid: str, block_info: list | None = None):
@@ -67,11 +69,12 @@ def query_partition_info_by_uuid(uuid: str, block_info: list | None = None):
     """
     if block_info is None:
         block_info = query_all_block_info()
-    for v in block_info:
-        if "children" in v:
-            for child in v["children"]:
+    for block in block_info:
+        if "children" in block:
+            for child in block["children"]:
                 if child["type"] == "part" and child["uuid"] == uuid:
                     return _copy.deepcopy(child)
+    return None
 
 
 def query_partition_info_by_name(name: str, block_info: list | None = None):
@@ -84,11 +87,12 @@ def query_partition_info_by_name(name: str, block_info: list | None = None):
     """
     if block_info is None:
         block_info = query_all_block_info()
-    for v in block_info:
-        if "children" in v:
-            for child in v["children"]:
+    for block in block_info:
+        if "children" in block:
+            for child in block["children"]:
                 if child["type"] == "part" and child["name"] == name:
                     return _copy.deepcopy(child)
+    return None
 
 ###############################################################################
 # LVM support
@@ -100,7 +104,7 @@ def lvm_scan_all():
      @brief Scans disks for LVM LVs
     """
     _ProgramWrapper("vgscan").invoke_and_wait(None, options={
-                                                   "q": None, "y": None})
+        "q": None, "y": None})
     _ProgramWrapper("lvscan").invoke_and_wait(None, options={
         "q": None, "y": None})
 
@@ -110,7 +114,7 @@ def lvm_activate_all_vgs():
      @brief Activate all VGs
     """
     _ProgramWrapper("pvchange").invoke_and_wait(None, options={
-                                                   "q": None, "y": None, "a": "y"})
+        "q": None, "y": None, "a": "y"})
 
 
 ###############################################################################
@@ -131,6 +135,5 @@ def get_partition_root(partition: str, block_info: list | None = None):
     for block in block_info:
         if partition.startswith(block["path"]):
             return block["path"]
-    else:
-        # We cannot continue
-        return None
+    # We cannot continue
+    return None

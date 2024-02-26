@@ -3,22 +3,24 @@ Module containing a class providing a more clean interface to work with systemd 
 """
 import configparser as _configparser
 import os as _os
-from warnings import warn as _warn
-from libsnr.util.common_utils import print_debug as _print_debug
 from pprint import pformat as _pformat
+from warnings import warn as _warn
+
+from libsnr.util.common_utils import print_debug as _print_debug
 
 
+# pylint: disable=invalid-name
 def SYSTEMD_SYSTEM_PATH(context: dict):
     """
      @brief Return the path to systemd's system directory
-     @param context A dictionary containing the following keys : temp_dir - The path to the temporary directory used.
+     @param context A dictionary containing context information
      @return str The path to systemd's system directory
     """
     return _os.path.join(context["temp_dir"], "usr", "lib", "systemd", "system")
 
 
 _ValidOptionValueType = str | int | bool
-## Type for a system section
+# Type for a system section
 SystemdSectionType = dict[str, _ValidOptionValueType]
 
 
@@ -97,9 +99,9 @@ class SystemdUnit(SystemdConfigFileBase,
 
     def __init__(self, context: dict, name: str):
         for extra_section in self._extra_sections:
-            setattr(self, f"{extra_section}_section", dict())
+            setattr(self, f"{extra_section}_section", {})
         for base_section in self._base_sections:
-            setattr(self, f"{base_section}_section", dict())
+            setattr(self, f"{base_section}_section", {})
         self.root = SYSTEMD_SYSTEM_PATH(context)
         self.path = _os.path.join(self.root, name + self.suffix)
         self.basename = _os.path.basename(self.path)

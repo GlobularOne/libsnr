@@ -1,9 +1,9 @@
 """
 Module containing a ProgramWrapper sub-class wrapping debootstrap tool
 """
-from libsnr.util.program_wrapper import ProgramWrapper as _ProgramWrapper
 # pylint: disable=unused-import
-from libsnr.util.program_wrapper import PIPE, STDOUT, DEVNULL
+from libsnr.util.program_wrapper import DEVNULL, PIPE, STDOUT
+from libsnr.util.program_wrapper import ProgramWrapper as _ProgramWrapper
 
 
 class Debootstrap(_ProgramWrapper):

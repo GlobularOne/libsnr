@@ -8,7 +8,8 @@ from libsnr.core import options as _options
 
 def get_arch():
     """
-     @brief Get the machine's architecture or if set (has priority) the architecture the user selected
+     @brief Get the machine's architecture or if set (has priority)
+            the architecture the user selected
     """
     if hasattr(_options, "arch"):
         return _options.arch
@@ -20,7 +21,8 @@ def get_arch():
 
 def get_kernel_arch():
     """
-     @brief Get the architecture in a way that \c linux-image-{get_kernel_arch()} is an existing debian package
+     @brief Get the architecture in a way that \c linux-image-{get_kernel_arch()} 
+            is an existing debian package
     """
     # Output of uname -i and uname -o is unknown in many situations
     # (Which also makes platform.processor unreliable)

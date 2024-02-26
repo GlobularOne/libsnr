@@ -6,11 +6,11 @@ import tempfile as _tempfile
 
 from libsnr.core import common_paths as _common_paths
 from libsnr.core import options as _options
+from libsnr.payload_generation.common import clean_and_exit as _clean_and_exit
 from libsnr.util.common_utils import print_debug as _print_debug
 from libsnr.util.common_utils import print_info as _print_info
 from libsnr.util.common_utils import rootfs_open as _rootfs_open
 from libsnr.util.programs.mount import Mount as _Mount
-from libsnr.payload_generation.common import clean_and_exit as _clean_and_exit
 
 
 def prepare_rootfs(context: dict):

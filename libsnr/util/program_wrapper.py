@@ -8,33 +8,37 @@ import subprocess as _subprocess
 
 from libsnr.util.common_utils import print_debug as _print_debug
 
-## Pass as either stdout, stderr or stdin and the stream becomes a usable pipe as a member with the same name
+# Pass as either stdout, stderr or stdin and the stream becomes a usable
+# pipe as a member with the same name
 PIPE = _subprocess.PIPE
-## Tie the stream to stdout
+# Tie the stream to stdout
 STDOUT = _subprocess.STDOUT
-## Tie to stream to /dev/null
+# Tie to stream to /dev/null
 DEVNULL = _subprocess.DEVNULL
+
+# pylint: disable=too-many-instance-attributes
 
 
 class ProgramWrapper:
     """
      @brief Class wrapping a program
     """
-    ## Path of the program to execute
+    # Path of the program to execute
     path: str
-    ## Working directory of the program
+    # Working directory of the program
     cwd: None | str
-    ## Command verb of the program (the first option passed on the command line, comes before \c args and \c options)
+    # Command verb of the program (the first option passed on
+    # the command line, comes before \c args and \c options)
     command_verb: None | str
-    ## Arguments to pass on the command line
+    # Arguments to pass on the command line
     args: list[str]
-    ## Options to pass on the command line
+    # Options to pass on the command line
     options: dict[str, str | None]
-    ## Executed program's stdin
+    # Executed program's stdin
     stdin = None
-    ## Executed program's stdout
+    # Executed program's stdout
     stdout = None
-    ## Executed program's stderr
+    # Executed program's stderr
     stderr = None
     _interpreter: tuple[str, str | None] = ("", None)
     _process: None | _subprocess.Popen
@@ -122,6 +126,7 @@ class ProgramWrapper:
         cmdline.extend([_shlex.quote(arg) for arg in self.args])
         _print_debug(
             f"Executing program '{cmdline[0]}' with arguments: {cmdline[1:]}")
+        # pylint: disable=consider-using-with
         self._process = _subprocess.Popen(cmdline, cwd=cwd, stdin=self._stdin,
                                           stdout=self._stdout, stderr=self._stderr)
         self.stdin = self._process.stdin

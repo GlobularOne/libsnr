@@ -1,8 +1,11 @@
 """
 Module containing a class allowing creation of tables to be printed with a clean interface
 """
-from libsnr.util.coloring import RED as _RED, BLUE as _BLUE, RESET as _RESET
-from libsnr.util.common_utils import get_terminal_size as _get_terminal_size
+from shutil import get_terminal_size as _get_terminal_size
+
+from libsnr.util.coloring import BLUE as _BLUE
+from libsnr.util.coloring import RED as _RED
+from libsnr.util.coloring import RESET as _RESET
 
 
 class Table:

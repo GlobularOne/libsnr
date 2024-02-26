@@ -3,10 +3,11 @@ Module containing a class offering a clean interface to shadow entries and a few
 """
 import os as _os
 
-# If a shadow entry's password field equals this, no password is required
+## If a shadow entry's password field equals this, no password is required
 PASSWORD_NO_LOGIN = "*"
 
 
+# pylint: disable=too-many-instance-attributes, too-few-public-methods
 class UnixShadowEntry:
     """
      @brief Class offering a clean interface to shadow entries
@@ -22,6 +23,7 @@ class UnixShadowEntry:
     reserved: str
     locked: bool
 
+    # pylint: disable=too-many-arguments
     def __init__(self, login_name: str, password: str,
                  password_change_date: str, max_password_age: str,
                  min_password_age: str, password_warn_period: str,
@@ -39,10 +41,11 @@ class UnixShadowEntry:
         self.locked = locked
 
     def __str__(self):
-        locked_str = ""
-        if self.locked:
-            locked_str = "!"
-        return f"{self.login_name}:{locked_str}{self.password}:{self.password_change_date}:{self.max_password_age}:{self.min_password_age}:{self.password_warn_period}:{self.password_inactivity_period}:{self.expiration_date}:{self.reserved}"
+        locked_str = "" if self.locked else "!"
+        return f"{self.login_name}:{locked_str}{self.password}:" + \
+            f"{self.password_change_date}:{self.max_password_age}:" + \
+            f"{self.min_password_age}:{self.password_warn_period}:" + \
+            f"{self.password_inactivity_period}:{self.expiration_date}:{self.reserved}"
 
 
 def parse_unix_shadow_line(line: str) -> UnixShadowEntry:
@@ -51,13 +54,18 @@ def parse_unix_shadow_line(line: str) -> UnixShadowEntry:
      @param line The line to parse.
      @return UnixShadowEntry The parsed UnixShadowEntry
     """
-    login_name, password, password_change_date, max_password_age, min_password_age, password_warn_period, password_inactivity_period, expiration_date, reserved = line.split(
-        ":", 9)
+    login_name, password, password_change_date, \
+        max_password_age, min_password_age, password_warn_period, \
+        password_inactivity_period, expiration_date, reserved = line.split(
+            ":", 9)
     locked = False
     if password.startswith("!"):
         password = password[1:]
         locked = True
-    return UnixShadowEntry(login_name, password, password_change_date, max_password_age, min_password_age, password_warn_period, password_inactivity_period, expiration_date, reserved, locked)
+    return UnixShadowEntry(login_name, password, password_change_date,
+                           max_password_age, min_password_age, password_warn_period,
+                           password_inactivity_period, expiration_date,
+                           reserved, locked)
 
 
 def parse_unix_shadow_file(root: str = "/"):

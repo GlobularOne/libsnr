@@ -8,11 +8,12 @@ from libsnr.util.programs.mount import Mount as _Mount
 
 def fix_data_dir():
     """
-     @brief Ensure a writable /data directory. If the rootfs is mounted writable, it does nothing. Otherwise it mounts a temporary in-ram filesystem on /data
+     @brief Ensure a writable /data directory. If the rootfs is mounted writable, it does nothing.
+            Otherwise it mounts a temporary in-ram filesystem on /data
     """
     try:
         _os.mkdir("/data/_fix_data_dir_test")
-    except Exception:
+    except Exception:  # pylint: disable=broad-exception-caught
         _Mount().invoke_and_wait(None, "tmpfs",
                                  "/data", options={"t": "tmpfs"})
     else:
@@ -28,11 +29,14 @@ def data_open(file, mode="r", buffering: int = -1, encoding: str | None = None):
      @param encoding The encoding to use.
      @return file-like object
     """
+    # pylint: disable=consider-using-with
     stream = open(_os.path.join("/data", file), mode, buffering, encoding)
 
+    # pylint: disable=unused-variable
     def __enter__():
         return stream.__enter__()
 
+    # pylint: disable=unused-variable
     def __exit__(exc_type, exc_val, exc_tb):
         return stream.__exit__(exc_type, exc_val, exc_tb)
     return stream

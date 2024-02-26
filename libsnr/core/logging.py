@@ -8,15 +8,15 @@ from libsnr.core import options as _options
 ## System message symbol
 SYS = "-->"
 ## Debug message symbol
-DEBUG = f"[\033[35m.\033[39m]"
+DEBUG = "[\033[35m.\033[39m]"
 ## Informational message symbol
-INFO = f"[\033[34m!\033[39m]"
+INFO = "[\033[34m!\033[39m]"
 ## Successful message symbol
-OK = f"[\033[32m+\033[39m]"
+OK = "[\033[32m+\033[39m]"
 ## Warning message symbol
-WARNING = f"[\033[33m*\033[39m]"
+WARNING = "[\033[33m*\033[39m]"
 ## Error message symbol
-ERROR = f"[\033[31m-\033[39m]"
+ERROR = "[\033[31m-\033[39m]"
 
 
 def carriage_return():

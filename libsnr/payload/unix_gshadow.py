@@ -5,6 +5,7 @@ import os as _os
 import copy as _copy
 
 
+# pylint: disable=too-many-instance-attributes, too-few-public-methods
 class UnixGShadowEntry:
     """
      @brief Class offering a clean interface to gshadow entries
@@ -15,6 +16,7 @@ class UnixGShadowEntry:
     members: list
     locked: bool
 
+    # pylint: disable=too-many-arguments
     def __init__(self, group_name: str, password: str,
                  administrators: list, members: list,
                  locked: bool):
@@ -28,7 +30,8 @@ class UnixGShadowEntry:
         locked_str = ""
         if self.locked:
             locked_str = "!"
-        return f"{self.group_name}:{locked_str}{self.password}:{','.join(self.administrators)}:{','.join(self.members)}"
+        return f"{self.group_name}:{locked_str}{self.password}:" + \
+            f"{','.join(self.administrators)}:{','.join(self.members)}"
 
 
 def parse_unix_gshadow_line(line: str) -> UnixGShadowEntry:

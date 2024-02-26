@@ -2,7 +2,8 @@
 Module containing a class providing systemd service file support
 """
 
-from libsnr.util.payloads.systemd_unit import SystemdSectionType, SystemdUnit as _SystemdUnit
+from libsnr.util.payloads.systemd_unit import SystemdSectionType
+from libsnr.util.payloads.systemd_unit import SystemdUnit as _SystemdUnit
 
 
 class SystemdService(_SystemdUnit,

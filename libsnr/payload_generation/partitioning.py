@@ -4,11 +4,11 @@ Partition the target device
 import os as _os
 import time as _time
 
+from libsnr.payload_generation.common import clean_and_exit as _clean_and_exit
 from libsnr.util.common_utils import print_debug as _print_debug
 from libsnr.util.program_wrapper import PIPE as _PIPE
 from libsnr.util.program_wrapper import STDOUT as _STDOUT
 from libsnr.util.program_wrapper import ProgramWrapper as _ProgramWrapper
-from libsnr.payload_generation.common import clean_and_exit as _clean_and_exit
 
 
 def partition_target(context: dict):

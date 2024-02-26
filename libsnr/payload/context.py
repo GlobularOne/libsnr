@@ -1,10 +1,12 @@
 """
-Context management utilities. Some snr functions require a context variable to work, functions in this module help creating a context for a payload
+Context management utilities. Some snr functions require a context variable to work,
+functions in this module help creating a context for a payload
 """
 
 import os as _os
-from libsnr.util.programs.mount import Mount as _Mount
+
 from libsnr.util.programs.mount import PIPE as _PIPE
+from libsnr.util.programs.mount import Mount as _Mount
 
 
 def create_context_for_mountpoint(mountpoint: str):

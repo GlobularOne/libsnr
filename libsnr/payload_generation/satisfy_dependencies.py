@@ -19,13 +19,19 @@ def satisfy_dependencies(context: dict):
      @return True if successful
      @return False if not successful
     """
-    if hasattr(_options.payload_module, "DEPENDENCIES") and len(_options.payload_module.DEPENDENCIES) != 0:
+    if hasattr(_options.payload_module, "DEPENDENCIES") and \
+            len(_options.payload_module.DEPENDENCIES) != 0:
+        dependencies = _options.payload_module.DEPENDENCIES
         _bind_required_rootfs_dirs(context)
         _print_debug(
-            f"Installing dependencies of the payload: {' '.join(_options.payload_module.DEPENDENCIES)}")
-        errorcode = _ChrootProgramWrapper(context, "apt-get").invoke_and_wait(None, *_options.payload_module.DEPENDENCIES, options={
-            "quiet": "2"
-        })
+            "Installing dependencies of the payload:" +
+            ' '.join(dependencies))
+        errorcode = _ChrootProgramWrapper(context,
+                                          "apt-get").invoke_and_wait(None,
+                                                                     *dependencies,
+                                                                     options={
+                                                                         "quiet": "2"
+                                                                     })
         if errorcode != 0:
             return _clean_and_exit(context, "Installing dependencies of payload failed")
         _unbind_requires_rootfs_dirs(context)

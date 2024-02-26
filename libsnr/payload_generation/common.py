@@ -6,7 +6,8 @@ import shutil as _shutil
 
 from libsnr.util.common_utils import print_debug as _print_debug
 from libsnr.util.common_utils import print_error as _print_error
-from libsnr.util.program_wrapper import ProgramWrapper as _ProgramWrapper, DEVNULL as _DEVNULL
+from libsnr.util.program_wrapper import DEVNULL as _DEVNULL
+from libsnr.util.program_wrapper import ProgramWrapper as _ProgramWrapper
 from libsnr.util.programs.mount import Mount as _Mount
 from libsnr.util.programs.umount import Umount as _Umount
 
@@ -48,8 +49,12 @@ def clean_on_success(context: dict, unmount_loop=False, clear_tempdir=False):
             None, context["temp_dir"], options={"q": None})
         _shutil.rmtree(context["temp_dir"])
     if not context["is_device"] and unmount_loop:
-        _ProgramWrapper("losetup", stdout=_DEVNULL, stderr=_DEVNULL).invoke_and_wait(None,
-                                                                                     options={"detach": context["device_name"]})
+        _ProgramWrapper("losetup",
+                        stdout=_DEVNULL,
+                        stderr=_DEVNULL).invoke_and_wait(None,
+                                                         options={
+                                                             "detach": context["device_name"]
+                                                         })
     if "temp_dir" in context:
         _shutil.rmtree(context["temp_dir"], ignore_errors=True)
     return True

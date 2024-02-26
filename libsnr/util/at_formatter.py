@@ -3,6 +3,7 @@ Module that contains a class to format a string, replacing \@variable@ with valu
 """
 
 
+# pylint: disable=too-few-public-methods
 class AtFormatter:
     """
     @brief Class to format a string, replacing \@variable@ with value

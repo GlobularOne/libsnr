@@ -5,6 +5,7 @@ import os as _os
 import copy as _copy
 
 
+# pylint: disable=too-few-public-methods
 class UnixGroupEntry:
     """
      @brief Class offering a clean interface to group entries

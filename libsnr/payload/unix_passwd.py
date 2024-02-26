@@ -3,10 +3,11 @@ Module containing a class offering a clean interface to passwd entries and a few
 """
 import os as _os
 
-# If a passwd entry's password field equals this, the password is stored in /etc/shadow
+## If a passwd entry's password field equals this, the password is stored in /etc/shadow
 SHADOW_PASSWORD = "x"
 
 
+# pylint: disable=too-many-instance-attributes, too-few-public-methods
 class UnixPasswdEntry:
     """
      @brief Class offering a clean interface to shadow entries
@@ -20,6 +21,7 @@ class UnixPasswdEntry:
     shell: str
     locked: bool
 
+    # pylint: disable=too-many-arguments
     def __init__(self, login_name: str, password: str,
                  uid: int, gid: int, comment: str,
                  home: str, shell: str, locked: bool):
@@ -36,9 +38,15 @@ class UnixPasswdEntry:
         locked_str = ""
         if self.locked:
             locked_str = "!"
-        return f"{self.login_name}:{locked_str}{self.password}:{self.uid}:{self.gid}:{self.comment}:{self.home}:{self.shell}"
+        return f"{self.login_name}:{locked_str}{self.password}:" + \
+            f"{self.uid}:{self.gid}:{self.comment}:{self.home}:{self.shell}"
 
     def is_password_stored_in_shadow(self):
+        """
+         @brief Checks whatever password is stored in shadow file not
+         @return True Password is stored in shadow file
+         @return False Password is not stored in shadow file
+        """
         return self.password == SHADOW_PASSWORD
 
 

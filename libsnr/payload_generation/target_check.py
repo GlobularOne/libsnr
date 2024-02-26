@@ -12,10 +12,12 @@ from libsnr.util.common_utils import print_error as _print_error
 
 def check_target(context: dict):
     """
-     @brief Check the target and print error if it is not a file or block device or doesn't meet the size requirements
+     @brief Check the target and print error if it is not a file or block device 
+            or doesn't meet the size requirements
      @param context Context dictionary
      @return True if target is a file or a block device and meets the size requirements
-     @return False if target is either not a file or a block device or does not meet the size requirements
+     @return False if target is either not a file or a block device
+             or does not meet the size requirements
     """
     target = context["target"]
     if _os.path.isfile(target):

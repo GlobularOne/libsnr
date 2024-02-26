@@ -21,7 +21,7 @@ def remove_safety_pin(root: str):
      @brief Remove the safety pin 
      @param root path to root of
     """
-    with open(_os.path.join(root, "root", ".give_em_hell"), "w") as stream:
+    with open(_os.path.join(root, "root", ".give_em_hell"), "w", encoding="utf-8") as stream:
         stream.write("Safety Pin")
 
 

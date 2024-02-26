@@ -3,13 +3,16 @@ Module containing a class providing support for systemd networkd .network files
 """
 import os as _os
 
-from libsnr.util.payloads.systemd_unit import SystemdSectionType, SystemdConfigFileBase  as _SystemdConfigFileBase
+from libsnr.util.payloads.systemd_unit import \
+    SystemdConfigFileBase as _SystemdConfigFileBase
+from libsnr.util.payloads.systemd_unit import SystemdSectionType
 
 
+# pylint: disable=invalid-name
 def SYSTEMD_NETWORK_PATH(context: dict):
     """
      @brief Return the path to systemd's network directory
-     @param context A dictionary containing the following keys : temp_dir - The path to the temporary directory used.
+     @param context A dictionary containing context information
      @return str The path to systemd's network directory
     """
     return _os.path.join(context["temp_dir"], "usr", "lib", "systemd", "system")
@@ -105,9 +108,9 @@ class SystemdNetwork(_SystemdConfigFileBase,
 
     def __init__(self, context: dict, name: str):
         for extra_section in self._extra_sections:
-            setattr(self, f"{extra_section}_section", dict())
+            setattr(self, f"{extra_section}_section", {})
         for base_section in self._base_sections:
-            setattr(self, f"{base_section}_section", dict())
+            setattr(self, f"{base_section}_section", {})
         self.root = SYSTEMD_NETWORK_PATH(context)
         self.path = _os.path.join(self.root, name + self.suffix)
         self.basename = _os.path.basename(self.path)
