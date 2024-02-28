@@ -5,6 +5,7 @@ import os as _os
 import shlex as _shlex
 import shutil as _shutil
 import subprocess as _subprocess
+import typing as _typing
 
 from libsnr.util.common_utils import print_debug as _print_debug
 
@@ -35,11 +36,11 @@ class ProgramWrapper:
     # Options to pass on the command line
     options: dict[str, str | None]
     # Executed program's stdin
-    stdin = None
+    stdin: _typing.IO[str] | None = None
     # Executed program's stdout
-    stdout = None
+    stdout: _typing.IO[str] | None = None
     # Executed program's stderr
-    stderr = None
+    stderr: _typing.IO[str] | None = None
     _interpreter: tuple[str, str | None] = ("", None)
     _process: None | _subprocess.Popen
     _stdin = None
@@ -128,7 +129,8 @@ class ProgramWrapper:
             f"Executing program '{cmdline[0]}' with arguments: {cmdline[1:]}")
         # pylint: disable=consider-using-with
         self._process = _subprocess.Popen(cmdline, cwd=cwd, stdin=self._stdin,
-                                          stdout=self._stdout, stderr=self._stderr)
+                                          stdout=self._stdout, stderr=self._stderr,
+                                          text=True)
         self.stdin = self._process.stdin
         self.stdout = self._process.stdout
         self.stderr = self._process.stderr
