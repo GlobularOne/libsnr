@@ -1,5 +1,7 @@
 # libsnr
 
+**This project has been merged to [snr](https://github.com/GlobularOne/snr) as snr core.**
+
 Libsnr is the underlying core library for snr-generated payloads and interface. Please see [snr-meta](https://github.com/GlobularOne/snr-meta) for more information.
 
 ## Contacting the author
